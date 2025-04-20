@@ -1,9 +1,12 @@
-ubuntu_min = """
+ubuntu_min = """#!/bin/bash
 #! /usr/bin/env bash
-set -xeuo pipefail
+set -x
+echo 'start' >>/hello.log
+#euo pipefail
 
 export DEBIAN_FRONTEND=noninteractive
-apt-get update
+apt-get update |tee -a /hello.log
+echo 'apt-get --yes purge' >>/hello.log
 apt-get --yes purge \
     emacs-common \
     iso-codes \
@@ -14,6 +17,6 @@ apt-get --yes purge \
     snapd \
     ubuntu-pro-client \
     #
-apt-get --yes autopurge
-apt-get --yes upgrade
+apt-get --yes autopurge |tee -a /hello.log
+apt-get --yes upgrade |tee -a /hello.log
 """

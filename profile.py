@@ -4,7 +4,7 @@
 Instructions:
 Wait for the profile instance to start. Then click on the node in the topology and choose the `shell` menu item. Happy experimenting!
 """
-# tell vscode to not give a shit about Pylance(reportShadowedImports) on 'profile'
+# tell vscode to not give a shit about Pylance(reportShadowedImports) about replacing stdlib profile module
 # type: ignore
 # TODO: how can we remove this?
 
@@ -17,6 +17,14 @@ from images import ubuntu24
 from scripts import ubuntu_min
 
 pc = portal.Context()
+pc.defineParameter(name='duration',
+                   description='Experiment duration in hours',
+                   typ=portal.ParameterType.INTEGER,
+                   defaultValue=1)
+params = pc.bindParameters()
+
+#----------------------------------------------------------------------
+
 r = pc.makeRequestRSpec()
 
 #----------------------------------------------------------------------
