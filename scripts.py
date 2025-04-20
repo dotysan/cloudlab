@@ -1,4 +1,5 @@
-ubuntu_min = """#! /usr/bin/env bash
+ubuntu_min = """
+#! /usr/bin/env bash
 set -xeuo pipefail
 
 export DEBIAN_FRONTEND=noninteractive
