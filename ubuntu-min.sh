@@ -8,7 +8,6 @@ apt-get --yes purge \
     emacs-common \
     iso-codes \
     libgtk-3-common \
-    locales \
     python3-babel \
     python3-botocore \
     snapd \
@@ -18,5 +17,8 @@ apt-get --yes install \
     mc \
     #
 apt-get --yes autopurge
-apt-get --yes upgrade
-apt-get --yes upgrade
+apt-get --yes dist-upgrade
+apt-get install --reinstall linux-firmware
+
+# since we added new kernel
+shutdown -r now
