@@ -2,7 +2,7 @@
 """ Hello World, in CloudLab.
 
 Instructions:
-Wait for the profile instance to start, then click on the node in the topology and choose the `shell` menu item. 
+Wait for the profile instance to start. Then click on the node in the topology and choose the `shell` menu item. Happy experimenting!
 """
 # tell vscode to not give a shit about Pylance(reportShadowedImports) on 'profile'
 # type: ignore
@@ -11,10 +11,11 @@ Wait for the profile instance to start, then click on the node in the topology a
 # packages
 from geni import portal
 
+# local
+from images import ubuntu24
+
 pc = portal.Context()
 r = pc.makeRequestRSpec()
-
-ubuntu24 = 'urn:publicid:IDN+emulab.net+image+emulab-ops:UBUNTU24-64-STD'
 
 #----------------------------------------------------------------------
 # Physical Nodes
