@@ -10,9 +10,11 @@ Wait for the profile instance to start. Then click on the node in the topology a
 
 # packages
 from geni import portal
+from geni.rspec import pg
 
 # local
 from images import ubuntu24
+from scripts import ubuntu_min
 
 pc = portal.Context()
 r = pc.makeRequestRSpec()
@@ -23,6 +25,9 @@ r = pc.makeRequestRSpec()
 pnode1 = r.RawPC('pnode1')
 pnode1.disk_image = ubuntu24
 pnode1.hardware_type='c6525-25g'
+
+exec_svc = pg.Execute(shell="/bin/bash", command=ubuntu_min)
+pnode1.addService(exec_svc)
 
 #======================================================================
 
