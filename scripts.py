@@ -10,7 +10,9 @@ apt-get --yes purge \
     locales \
     python3-babel \
     python3-botocore \
-    snapd
+    snapd \
+    ubuntu-pro-client \
+    #
 apt-get --yes autopurge
-apt-get --ues upgrade
+apt-get --yes upgrade
 """
