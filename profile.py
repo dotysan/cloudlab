@@ -17,11 +17,12 @@ from images import ubuntu24
 from scripts import ubuntu_min
 
 pc = portal.Context()
-pc.defineParameter(name='duration',
-                   description='Experiment duration in hours',
-                   typ=portal.ParameterType.INTEGER,
-                   defaultValue=1)
-params = pc.bindParameters()
+pc.lifetime = 24 * 3600
+# pc.defineParameter(name='duration',
+#                    description='Experiment duration in hours',
+#                    typ=portal.ParameterType.INTEGER,
+#                    defaultValue=1)
+# params = pc.bindParameters()
 
 #----------------------------------------------------------------------
 
@@ -34,8 +35,9 @@ pnode1 = r.RawPC('pnode1')
 pnode1.disk_image = ubuntu24
 pnode1.hardware_type='c6525-25g'
 
-exec_svc = pg.Execute(shell="/bin/bash", command=ubuntu_min)
-pnode1.addService(exec_svc)
+# exec_svc = pg.Execute(shell="/bin/bash", command=ubuntu_min)
+# pnode1.addService(exec_svc)
+pnode1.addService(pg.Execute(shell='bash', command='echo hello |tee -a /hello-test.txt'))
 
 #======================================================================
 
