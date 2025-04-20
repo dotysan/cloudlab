@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 # needs to be run as root/sudo
-set -xeuo pipefail
+set -xe
 
 export DEBIAN_FRONTEND=noninteractive
 apt-get update
@@ -14,5 +14,9 @@ apt-get --yes purge \
     snapd \
     ubuntu-pro-client \
     #
+apt-get --yes install \
+    mc \
+    #
 apt-get --yes autopurge
+apt-get --yes upgrade
 apt-get --yes upgrade
