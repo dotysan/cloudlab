@@ -16,7 +16,12 @@ from geni.rspec import pg
 from images import ubuntu24
 
 pc = portal.Context()
-# params = pc.bindParameters()
+pc.defineParameter(name="node_type",
+                   description="Node Type",
+                   typ=portal.ParameterType.STRING,
+                   defaultValue="c6525-25g",
+                   longDescription="Specify the node hardware type.")
+params = pc.bindParameters()
 
 #----------------------------------------------------------------------
 
@@ -27,8 +32,9 @@ r = pc.makeRequestRSpec()
 
 pnode1 = r.RawPC('pnode1')
 pnode1.disk_image = ubuntu24
-pnode1.hardware_type='c6525-25g'
+pnode1.hardware_type = params.node_type
 
+# why are these run on every boot?
 exec_svc = pg.Execute(shell='sh', command='sudo /local/repository/ubuntu-min.sh')
 pnode1.addService(exec_svc)
 
