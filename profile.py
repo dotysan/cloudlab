@@ -26,7 +26,7 @@ r = pc.makeRequestRSpec()
 # Physical Nodes
 
 pnode1 = r.RawPC('pnode1')
-pnode1.disk_image = 'urn:publicid:IDN+utah.cloudlab.us+image+canonical-ubuntu24-04'  # ubuntu24
+pnode1.disk_image = ubuntu24
 pnode1.hardware_type='c6525-25g'
 
 exec_svc = pg.Execute(shell='sh', command='sudo /local/repository/ubuntu-min.sh')
