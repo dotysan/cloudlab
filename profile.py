@@ -10,7 +10,10 @@ Wait for the profile instance to start. Then click on the node in the topology a
 
 # packages
 from geni import portal
-from geni.rspec import pg
+from geni.rspec import (
+    # emulab,
+    pg,
+)
 
 # local
 from images import ubuntu24
@@ -38,10 +41,16 @@ pnode1.hardware_type = params.node_type
 exec_svc = pg.Execute(shell='sh', command='sudo /local/repository/ubuntu-min.sh')
 pnode1.addService(exec_svc)
 
+#----------------------------------------------------------------------
+# Virtual Nodes
+
+# foo = r.DockerContainer('foo')
+# foo = emulab.DockerContainer('foo')
+
 #======================================================================
 
 def main():  # -> None:
-    """"""
+    """main()"""
 
     # output the RSpec XML
     pc.printRequestRSpec()
