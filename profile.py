@@ -43,8 +43,7 @@ def main():  # type: () -> None
     pnodes = add_phy_nodes(r, params.node_type)
     vnodes = add_virt_nodes(r, params)
 
-    # links =
-    create_links(r, pnodes + vnodes)
+    # links = create_links(r, pnodes + vnodes)
 
     # output the RSpec XML
     pc.printRequestRSpec()
@@ -70,7 +69,7 @@ def define_parameters(pc):  # type: (portal.Context) -> Any
 def add_phy_nodes(req, node_type):  # type: (pg.Request, str) -> List[pg.RawPC]
     """ Create and return a list of physical nodes with configuration. """
 
-    pnode1 = req.RawPC('pnode1')
+    pnode1 = req.RawPC(name='pnode1', component_id=ubuntu24)
     pnode1.disk_image = ubuntu24
     pnode1.hardware_type = node_type
 
@@ -87,8 +86,7 @@ def add_virt_nodes(req, params):  # type: (pg.Request, portal.DictNamespace) -> 
     vnodes = []
     for i in range(1, params.count + 1):
         name = "vnode{}".format(i)
-        # vnode = req.XenVM(client_id=name, component_id=ubuntu24, exclusive=True)
-        vnode = req.XenVM(client_id=name, component_id='Cloudlab Utah', exclusive=True)
+        vnode = req.XenVM(client_id=name, component_id=ubuntu24, exclusive=True)
         vnode.xen_ptype = params.node_type
         # vnode.disk = ubuntu24 # NO! IT's integer size in GB.
         vnode.cores = 4  # TODO: parameterize this; why are we getting 32?!?
