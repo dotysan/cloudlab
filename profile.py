@@ -31,11 +31,10 @@ def main():  # type: () -> None
 
     pc = portal.Context()
     params = define_parameters(pc)
-
     r = pc.makeRequestRSpec()
 
     pnodes = add_phy_nodes(r, params.node_type)
-    vnodes = add_virt_nodes(r)
+    vnodes = add_virt_nodes(r, params.count)
 
     # links =
     create_links(r, pnodes + vnodes)
@@ -47,19 +46,24 @@ def main():  # type: () -> None
 def define_parameters(pc):  # type: (portal.Context) -> Any
     """ Define and bind user parameters for this experiment. """
 
-    pc.defineParameter(name="node_type",
-                       description="Node Type",
+    pc.defineParameter(name='node_type',
+                       description='Node Type',
                        typ=portal.ParameterType.STRING,
-                       defaultValue="c6525-25g",
-                       longDescription="Specify the node hardware type.")
+                       defaultValue='c6525-25g',
+                       longDescription='Specify the physical node hardware type.')
+    pc.defineParameter(name='count',
+                       description='Number of VMs',
+                       typ=portal.ParameterType.INTEGER,
+                       defaultValue=3,
+                       longDescription='How many VMs to create.')
 
     return pc.bindParameters()
 
 
-def add_phy_nodes(r, node_type):  # type: (Any, str) -> List[Any]
+def add_phy_nodes(req, node_type):  # type: (pg.Request, str) -> List[pg.RawPC]
     """ Create and return a list of physical nodes with configuration. """
 
-    pnode1 = r.RawPC('pnode1')
+    pnode1 = req.RawPC('pnode1')
     pnode1.disk_image = ubuntu24
     pnode1.hardware_type = node_type
 
@@ -70,13 +74,17 @@ def add_phy_nodes(r, node_type):  # type: (Any, str) -> List[Any]
     return [pnode1]
 
 
-def add_virt_nodes(r):  # type: (Any) -> List[Any]
+def add_virt_nodes(req, count):  # type: (pg.Request, int) -> List[pg.XenVM|pg.DockerContainer]
     """ Create and return a list of virtual nodes (Xen and Docker). """
 
-    vnode1 = r.XenVM('vnode1')
+    vnodes = [
+        req.XenVM("vnode{}".format(i))
+        for i in range(1, count + 1)
+    ]
+
     # dnode1 = r.DockerContainer(client_id='dnode1')
 
-    return [vnode1]  # , dnode1]
+    return vnodes  # + [dnode1] + dnodes
 
 
 def create_links(r, nodes):  # type: (Any, Any) -> List[Any]
