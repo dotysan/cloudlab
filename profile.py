@@ -87,9 +87,9 @@ def add_virt_nodes(req, params):  # type: (pg.Request, portal.DictNamespace) -> 
     vnodes = []
     for i in range(1, params.count + 1):
         name = "vnode{}".format(i)
-        vnode = req.XenVM(client_id=name, exclusive=True)
+        vnode = req.XenVM(client_id=name, component_id=ubuntu24, exclusive=True)
         vnode.xen_ptype = params.node_type
-        vnode.disk = ubuntu24
+        # vnode.disk = ubuntu24 # NO! IT's integer size in GB.
         vnode.cores = 4  # TODO: parameterize this; why are we getting 32?!?
         vnodes.append(vnode)
 
