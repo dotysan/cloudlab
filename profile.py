@@ -74,9 +74,9 @@ def add_virt_nodes(r):  # type: (Any) -> List[Any]
     """ Create and return a list of virtual nodes (Xen and Docker). """
 
     vnode1 = r.XenVM('vnode1')
-    dnode1 = r.DockerContainer('dnode1')
+    # dnode1 = r.DockerContainer(client_id='dnode1')
 
-    return [vnode1, dnode1]
+    return [vnode1]  # , dnode1]
 
 
 def create_links(r, nodes):  # type: (Any, Any) -> List[Any]
