@@ -86,9 +86,11 @@ def add_virt_nodes(req, params):  # type: (pg.Request, portal.DictNamespace) -> 
 
     vnodes = []
     for i in range(1, params.count + 1):
-        vnode = req.XenVM("vnode{}".format(i))
+        name = "vnode{}".format(i)
+        vnode = req.XenVM(client_id=name, exclusive=True)
         vnode.xen_ptype = params.node_type
-        vnode.cores = 4
+        vnode.disk = ubuntu24
+        vnode.cores = 4  # TODO: parameterize this; why are we getting 32?!?
         vnodes.append(vnode)
 
     # dnode1 = r.DockerContainer(client_id='dnode1')
