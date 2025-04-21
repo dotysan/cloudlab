@@ -10,20 +10,27 @@ Then click on the node in the topology and choose the `shell` menu item.Happy ex
 # TODO: how can we remove this?
 
 # stdlib
+# import logging
 try:
     from typing import List, Any  # available via pip install typing for Python 2.7
 except ImportError:
     pass
+# import warnings
 
 # packages
 from geni import portal
 from geni.rspec import (
     # emulab,
+    igext,
     pg,
 )
 
 # local
 from images import ubuntu24
+
+# warnings.simplefilter('default')
+# # or better yet
+# logging.captureWarnings(True)
 
 
 def main():  # type: () -> None
@@ -34,7 +41,7 @@ def main():  # type: () -> None
     r = pc.makeRequestRSpec()
 
     pnodes = add_phy_nodes(r, params.node_type)
-    vnodes = add_virt_nodes(r, params.count)
+    vnodes = add_virt_nodes(r, params)
 
     # links =
     create_links(r, pnodes + vnodes)
@@ -74,13 +81,15 @@ def add_phy_nodes(req, node_type):  # type: (pg.Request, str) -> List[pg.RawPC]
     return [pnode1]
 
 
-def add_virt_nodes(req, count):  # type: (pg.Request, int) -> List[pg.XenVM|pg.DockerContainer]
+def add_virt_nodes(req, params):  # type: (pg.Request, portal.DictNamespace) -> List[igext.XenVM|igext.DockerContainer]
     """ Create and return a list of virtual nodes (Xen and Docker). """
 
-    vnodes = [
-        req.XenVM("vnode{}".format(i))
-        for i in range(1, count + 1)
-    ]
+    vnodes = []
+    for i in range(1, params.count + 1):
+        vnode = req.XenVM("vnode{}".format(i))
+        vnode.xen_ptype = params.node_type
+        vnode.cores = 4
+        vnodes.append(vnode)
 
     # dnode1 = r.DockerContainer(client_id='dnode1')
 
